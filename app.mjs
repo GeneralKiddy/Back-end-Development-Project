@@ -1,12 +1,13 @@
 import express from "express";
 import connectionPool from "./utils/db.mjs";
+import { validateCreateBookData } from "./middlewares/book.validation.mjs";
 
 const app = express();
 const port = 4002;
 
 app.use(express.json());
 
-app.post("/books", async (req, res) => {
+app.post("/books", [validateCreateBookData], async (req, res) => {
     try {
         const newbook = {
             ...req.body,
