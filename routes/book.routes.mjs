@@ -1,8 +1,11 @@
 import { Router } from "express";
 import connectionPool from "../utils/db.mjs";
 import { validateCreateBookData } from "../middlewares/book.validation.mjs";
+import { protect } from "../middlewares/protect.mjs";
 
 const bookRouter = Router();
+
+bookRouter.use(protect);
 
 bookRouter.post("/", [validateCreateBookData], async (req, res) => {
     try {
