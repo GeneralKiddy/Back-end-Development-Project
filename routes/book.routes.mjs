@@ -16,7 +16,7 @@ bookRouter.post("/", [validateCreateBookData], async (req, res) => {
             `insert into books (user_id, title, author, publisher, created_at, updated_at, published_at)
             values ($1, $2, $3, $4, $5, $6, $7)`, 
             [
-                1,
+                newbook.user_id,
                 newbook.title,
                 newbook.author,
                 newbook.publisher,
@@ -25,26 +25,26 @@ bookRouter.post("/", [validateCreateBookData], async (req, res) => {
                 newbook.published_at,
             ]
         );
-        return res.status(201).json({ "message": "Created book sucessfully" })
+        return res.status(201).json({ message: "Created book sucessfully" })
     }
-    catch { res.status(500).json({ "message": "Server could not create book because database connection" }) }
+    catch { res.status(500).json({ message: "Server could not create book because of internal server error" }) }
 });
 
 bookRouter.get("/", async (req, res) => {
   try {
-    const results = await connectionPool.query(`select * from books`);
-    return res.status(200).json({ "data": results.rows });
+    const result = await connectionPool.query(`select * from books`);
+    return res.status(200).json({ data: result.rows });
   }
-  catch { res.status(500).json({ "message": "Server could not read book because database connection" }) }
+  catch { res.status(500).json({ message: "Server could not read book because of internal server error" }) }
 });
 
 bookRouter.get("/:bookId", async (req, res) => {
   try {
     const bookId = req.params.bookId;
-    const results = await connectionPool.query(`select * from books where book_id = $1`, [bookId]);
-    return res.status(200).json({ "data": results.rows[0] });
+    const result = await connectionPool.query(`select * from books where book_id = $1`, [bookId]);
+    return res.status(200).json({ data: result.rows[0] });
   }
-  catch { res.status(500).json({ "message": "Server could not read book because database connection" }) }
+  catch { res.status(500).json({ message: "Server could not read book because of internal server error" }) }
 });
 
 bookRouter.put("/:bookId", async (req, res) => {
@@ -66,9 +66,9 @@ bookRouter.put("/:bookId", async (req, res) => {
         updatedbook.updated_at,
       ]
     );
-    return res.status(200).json({ "message": "Updated book sucessfully" })
+    return res.status(200).json({ message: "Updated book sucessfully" })
   }
-  catch { res.status(500).json({ "message": "Server could not update book because database connection" }) }
+  catch { res.status(500).json({ message: "Server could not update book because of internal server error" }) }
 });
 
 bookRouter.delete("/:bookId", async (req, res) => {
@@ -77,9 +77,9 @@ bookRouter.delete("/:bookId", async (req, res) => {
     await connectionPool.query(
       `delete from books where book_id = $1`, [bookId]
     );
-    return res.status(200).json({ "message": "Deleted book sucessfully" })
+    return res.status(200).json({ message: "Deleted book sucessfully" })
   }
-  catch { res.status(500).json({ "message": "Server could not delete book because database connection" }) }
+  catch { res.status(500).json({ message: "Server could not delete book because of internal server error" }) }
 });
 
 export default bookRouter;
