@@ -1,3 +1,85 @@
+/**
+ * @swagger
+ * tags:
+ *  name: Users
+ *  description: The user managing API
+ * /auth/register:
+ *   post:
+ *     summary: Create a new user
+ *     tags: [Users]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               username:
+ *                 type: string
+ *                 description: the username of the user's account
+ *               password:
+ *                 type: string
+ *                 description: the password of the user's account
+ *               firstName:
+ *                 type: string
+ *                 description: the first name of the user
+ *               lastName:
+ *                 type: string
+ *                 description: the last name of the user
+ *     responses:
+ *       201:
+ *        description: User has been created successfully
+ *        content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                message:
+ *                  type: string
+ *                  example: User has been created successfully
+ *                userId:
+ *                  type: integer
+ *                  description: The auto-generated id of the user
+ *       400:
+ *         description: Username, Password, First Name, or Last Name is required
+ *       500:
+ *         description: Server could not create user because of internal server error
+ * /auth/login:
+ *   post:
+ *     summary: Log in the user's account
+ *     tags: [Users]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               username:
+ *                 type: string
+ *                 description: the username of the user's account
+ *               password:
+ *                 type: string
+ *                 description: the password of the user's account
+ *     responses:
+ *      200:
+ *          description: login successfully
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      type: object
+ *                      properties:
+ *                          message:
+ *                              type: string
+ *                              example: login successfully
+ *                          token:
+ *                              type: string
+ *                              description: The code that enables authorized access to a computer system
+ *      400:
+ *         description: Username and password are required
+ *      500:
+ *         description: Internal server error
+*/
 import { Router } from "express";
 import connectionPool from "../utils/db.mjs";
 import bcrypt from "bcrypt";
