@@ -17,7 +17,7 @@ async function init() {
         description: "RESTful API",
       },
 servers: [
-        { url: "https://your-render-url.onrender.com" }, // เปลี่ยนหลัง deploy
+        { url: "https://back-end-development-project.onrender.com" }, 
       ],
     },
     apis: ["./routes/*.mjs"],
